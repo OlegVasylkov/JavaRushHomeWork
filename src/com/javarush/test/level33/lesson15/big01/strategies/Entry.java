@@ -1,0 +1,50 @@
+package com.javarush.test.level33.lesson15.big01.strategies;
+
+import java.io.Serializable;
+
+/**
+ * Created by 309_newpower on 17.06.2016.
+ */
+public class Entry implements Serializable
+{
+    private static final long serialVersionUID = 362498820763181265L;
+    Long key;
+    String value;
+    Entry next;
+    int hash;
+
+    public Entry(int hash, Long key, String value, Entry next){
+        this.hash = hash;
+        this.key = key;
+        this.value = value;
+        this.next = next;
+    }
+
+    public Long getKey(){
+        return key;
+    }
+    public String getValue(){
+        return value;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = key != null ? key.hashCode() : 0;
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (next != null ? next.hashCode() : 0);
+        result = 31 * result + hash;
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Entry{" +
+                "key=" + key +
+                ", value='" + value + '\'' +
+                ", next=" + next +
+                ", hash=" + hash +
+                '}';
+    }
+}
