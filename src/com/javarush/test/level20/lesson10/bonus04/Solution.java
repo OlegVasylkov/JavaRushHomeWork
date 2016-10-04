@@ -1,7 +1,7 @@
 package com.javarush.test.level20.lesson10.bonus04;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 /* Свой список
 Посмотреть, как реализован LinkedList.
@@ -51,20 +51,76 @@ import java.util.List;
 Должно быть наследование AbstractList<String>, List<String>, Cloneable, Serializable
 Метод main в тестировании не участвует
 */
-public class Solution {
+public class Solution extends AbstractList<String>
+    implements List<String>, Cloneable, Serializable
+{
     public static void main(String[] args) {
-        List<String> list;// = new Solution();
-
-//        for (int i = 1; i < 16; i++) {
-//            list.add(String.valueOf(i));
-//        }
-//        System.out.println("Expected 3, actual is " + ((Solution) list).getParent("8"));
-//        list.remove("5");
-//        System.out.println("Expected null, actual is " + ((Solution) list).getParent("11"));
+        List<String> list = new Solution();
+        for (int i = 1; i < 16; i++) {
+            list.add(String.valueOf(i));
+        }
+        System.out.println("Expected 3, actual is " + ((Solution) list).getParent("8"));
+        list.remove("5");
+        System.out.println("Expected null, actual is " + ((Solution) list).getParent("11"));
     }
 
     public String getParent(String value) {
         //have to be implemented
         return null;
+    }
+
+    private static final long serialVersionUID = 876323262645176354L;
+    transient int size = 0;
+    transient Node first;
+    transient Node last;
+
+    public Solution() {
+    }
+
+    public Solution(Collection<? extends String> c) {
+        this();
+        addAll(c);
+    }
+
+    private static class Node {
+        String item;
+        Node parent;
+        Node left;
+        Node right;
+
+        private Node(String item, Node parent, Node left, Node right) {
+            this.item = item;
+            this.parent = parent;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    @Override
+    public String get(int index)
+    {
+        return node(index);
+    }
+
+    String node(int index) {
+        //TODO
+        if (index < (size >> 1)) {
+            Node x = first;
+            for (int i = 0; i < index; i++)
+//                x = x.next;
+            return x.item;
+        } else {
+            Node x = last;
+            for (int i = size - 1; i > index; i--)
+//                x = x.prev;
+            return x.item;
+        }
+        return null;
+    }
+
+    @Override
+    public int size()
+    {
+        return size;
     }
 }
